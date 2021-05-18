@@ -27,7 +27,7 @@ class Info(commands.Cog):
         if guild == None:
             await ctx.send(f"You have to put the name of the server")
         else:
-            await ctx.send(f"**{guild}**")
+            await ctx.send(f"**{guild}**\nBoosts = {guild.premium_subscription_count}")
 
 def setup(client):
     client.add_cog(Info(client))
