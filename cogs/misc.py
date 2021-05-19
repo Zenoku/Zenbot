@@ -1,5 +1,7 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands.errors import CommandOnCooldown
+from discord.ext.commands.cooldowns import BucketType
 
 class Misc(commands.Cog):
 
@@ -28,14 +30,21 @@ class Misc(commands.Cog):
             await ctx.send(arg)
     
     @commands.command(aliases = ["fb"])
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def feedback(self, ctx, *, arg = None):
         if arg == None:
             await ctx.send("Can't send nothing bud")
         else:
-            feedback_msg = ctx.message.jump_url
             feedback_channel = self.client.get_channel(840975059312181248)
-            await feedback_channel.send(f"**{arg}** submitted by {ctx.author}. Message link: {feedback_msg}")
+            await feedback_channel.send(f"**{arg}** submitted by {ctx.author}. Message link: {ctx.message.jump_url}")
             await ctx.send("Feedback submitted")
+
+    @commands.Cog.listener()
+    async def feedback_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send("You're on cooldown. Chill out")
+        else:
+            await ctx.send("Please report this error with z.fb along with how you got it")
 
     @commands.command()
     async def dm(self, ctx, member:discord.User, *, arg,):

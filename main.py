@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+from discord.ext.commands.errors import CommandOnCooldown
 from dotenv import load_dotenv
 
 # bot status
@@ -23,6 +24,16 @@ async def on_connect():
 @client.event
 async def on_ready():
     print("Zenbot is ready")
+
+"""
+# cooldown error msg
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error,commands.Command0nCooldown):
+        await ctx.send("You're on a cooldown")
+    else:
+        await ctx.send("Please report the bug with z.fb")
+"""
 
 """
 work on embeds and stuff. also uncomment remove(help) above when done
