@@ -39,12 +39,14 @@ class Misc(commands.Cog):
             await feedback_channel.send(f"**{arg}** submitted by {ctx.author}. Message link: {ctx.message.jump_url}")
             await ctx.send("Feedback submitted")
 
-    @commands.Cog.listener()
+
+    @feedback.error
     async def feedback_error(self, ctx, error):
         if isinstance(error, commands.CommandOnCooldown):
             await ctx.send("You're on cooldown. Chill out")
         else:
             await ctx.send("Please report this error with z.fb along with how you got it")
+
 
     @commands.command()
     async def dm(self, ctx, member:discord.User, *, arg,):
