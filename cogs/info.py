@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-class Info(commands.Cog):
+class info(commands.Cog):
 
     def __init__(self, client):
         self.client = client
@@ -35,4 +35,4 @@ class Info(commands.Cog):
         await ctx.send("https://github.com/Zenith163/Zenbot")
 
 def setup(client):
-    client.add_cog(Info(client))
+    client.add_cog(info(client))
