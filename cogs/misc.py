@@ -33,6 +33,10 @@ class misc(commands.Cog):
     async def dm(self, ctx, member:discord.User, *, arg,):
         await member.send(f"**{ctx.author}** says: {arg}")
         await ctx.send("DM sent")
+    
+    @commands.command()
+    async def bonk(self, ctx, member:discord.User):
+        await ctx.send(f"**{ctx.author}** bonks **{member}** https://tenor.com/view/kendo-shinai-bonk-doge-horny-gif-20995284")
 
 def setup(client):
     client.add_cog(misc(client))

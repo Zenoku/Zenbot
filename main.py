@@ -5,7 +5,7 @@ from discord.ext.commands.errors import CommandOnCooldown
 from dotenv import load_dotenv
 
 # bot status
-activity = discord.Activity(name="Zenith fail at coding", type=discord.ActivityType.watching)
+activity = discord.Activity(name="Zenoku fail at coding", type=discord.ActivityType.watching)
 
 # regular bot stuff
 client = commands.Bot(command_prefix=["z.", "Z."], case_insensitive=True, activity = activity) 

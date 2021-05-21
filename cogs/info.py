@@ -30,9 +30,8 @@ class info(commands.Cog):
             await ctx.send(f"**{guild}**\nBoosts = {guild.premium_subscription_count}")
 
     @commands.command(aliases = ["sc"])
-    @commands.has_role(843657026919596123)
     async def sourcecode(self, ctx):
-        await ctx.send("https://github.com/Zenith163/Zenbot")
+        await ctx.send("https://github.com/Zenoku/Zenbot")
 
 def setup(client):
     client.add_cog(info(client))
