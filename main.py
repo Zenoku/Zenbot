@@ -25,15 +25,25 @@ async def on_connect():
 async def on_ready():
     print("Zenbot is ready")
 
-"""
-# cooldown error msg
+
+# error msges
 @client.event
 async def on_command_error(ctx, error):
-    if isinstance(error,commands.Command0nCooldown):
-        await ctx.send("You're on a cooldown")
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send("You're missing something bud")
+    elif isinstance(error, commands.CommandNotFound):
+        await ctx.send("That command doesn't exist")
+    elif isinstance(error, commands.DisabledCommand):
+        await ctx.send("That command has been disabled")
+    elif isinstance(error, commands.NotOwner):
+        await ctx.send("That command isn't for you")
+    elif isinstance(error, commands.MissingPermissions):
+        await ctx.send(f"You're missing {error.missing_perms} to use that command")
+    elif isinstance(error, commands.BotMissingPermissions):
+        await ctx.send(f"I am missing {error.missing_perms} to use that command")        
     else:
         await ctx.send("Please report the bug with z.fb")
-"""
+
 
 """
 work on embeds and stuff. also uncomment remove(help) above when done
