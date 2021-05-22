@@ -12,7 +12,7 @@ class misc(commands.Cog):
     async def ping(self, ctx):
         latency = self.client.latency * 1000
         latency_round = round(latency,2)
-        await ctx.send(f"{latency_round}ms")
+        await ctx.send(f"Pong! {latency_round}ms")
 
     @commands.command(aliases = ["hello", "hai"])
     async def hi(self, ctx):

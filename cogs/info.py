@@ -10,7 +10,8 @@ class info(commands.Cog):
     @commands.command(aliases = ["ui"])
     async def userinfo(self, ctx, member:discord.User = None):
         if member == None:
-            await ctx.send(f"**{ctx.author}**\nID: {ctx.author.id}\nCreated at: {ctx.author.created_at}\nAvatar: {ctx.author.avatar_url}")
+            member = ctx.author
+            await ctx.send(f"**{member}**\nID: {member.id}\nCreated at: {member.created_at}\nAvatar: {member.avatar_url}")
         else:
             await ctx.send(f"**{member}**\nID: {member.id}\nCreated at: {member.created_at}\nAvatar: {member.avatar_url}")
     
