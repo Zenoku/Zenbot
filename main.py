@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+from discord.ext.commands.bot import when_mentioned_or
 from discord.ext.commands.errors import CommandOnCooldown
 from dotenv import load_dotenv
 
@@ -8,7 +9,7 @@ from dotenv import load_dotenv
 activity = discord.Activity(name="Zenoku fail at coding", type=discord.ActivityType.watching)
 
 # regular bot stuff
-client = commands.Bot(command_prefix=["z.", "Z."], case_insensitive=True, activity = activity) 
+client = commands.Bot(command_prefix=when_mentioned_or("z.", "Z."), case_insensitive=True, activity = activity) 
 client.load_extension('jishaku')
 # client.remove_command("help")
 
@@ -24,6 +25,7 @@ async def on_connect():
 @client.event
 async def on_ready():
     print("Zenbot is ready")
+    print(f"Discord.py Version: {discord.__version__}")
 
 
 # error msges
@@ -42,7 +44,8 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.BotMissingPermissions):
         await ctx.send(f"I am missing {error.missing_perms} to use that command")        
     else:
-        await ctx.send("Please report the bug with z.fb")
+        log_channel = client.get_channel(845671875626795008)
+        await log_channel.send(f"Error encountered by: **{ctx.author}**\nMessage id: {ctx.message.jump_url}\n{error}")
 
 
 """
