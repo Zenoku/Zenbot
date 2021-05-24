@@ -46,6 +46,7 @@ async def on_command_error(ctx, error):
     else:
         log_channel = client.get_channel(845671875626795008)
         await log_channel.send(f"Error encountered by: **{ctx.author}**\nMessage id: {ctx.message.jump_url}\n{error}")
+        await ctx.send("Some error has occured and has been reported.")
 
 
 """
