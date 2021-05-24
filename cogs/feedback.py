@@ -14,9 +14,14 @@ class feedback(commands.Cog):
         if arg == None:
             await ctx.send("Can't send nothing bud")
         else:
+            embed = discord.Embed(title = ctx.author)
+            embed.add_field(name = "Feedback", value = arg, inline = False)
+            embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
             feedback_channel = self.client.get_channel(840975059312181248)
-            await feedback_channel.send(f"**{ctx.author}** submits: {arg}. Message link: {ctx.message.jump_url}")
+            await feedback_channel.send(embed = embed)
             await ctx.send("Feedback submitted")
+
+
 
     """
     work on feedback resolve command later. prob hav like reactions and embeds and stuff
