@@ -17,7 +17,11 @@ class info(commands.Cog):
             embed.set_image(url = member.avatar_url)
             await ctx.send(embed = embed)
         else:
-            await ctx.send(f"**{member}**\nID: {member.id}\nCreated at: {member.created_at}\nAvatar: {member.avatar_url}")
+            embed = discord.Embed(title = member)
+            embed.add_field(name = "Member ID", value = member.id, inline = True)
+            embed.add_field(name = "Creation date:", value = member.created_at, inline = True)
+            embed.set_image(url = member.avatar_url)
+            await ctx.send(embed = embed)
     
     # add embeds and figure out role permission stuff
     @commands.command(aliases = ["ri"])
