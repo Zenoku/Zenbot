@@ -1,7 +1,5 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands.errors import CommandOnCooldown
-from discord.ext.commands.cooldowns import BucketType
 
 class restricted(commands.Cog):
     
