@@ -32,11 +32,19 @@ class info(commands.Cog):
             await ctx.send(f"**{role}**\nId: {role.id}\nMentionable: {role.mentionable}\nPermissions: {role.permissions}\nColor: {role.color}\nCreated at {role.created_at}")
 
     @commands.command(aliases = ["si", "gi"])
-    async def serverinfo(self, ctx, *, guild:discord.Guild = None):
-        if guild == None:
-            await ctx.send(f"You have to put the name of the server")
-        else:
-            await ctx.send(f"**{guild}**\nBoosts = {guild.premium_subscription_count}")
+    async def serverinfo(self, ctx):
+        guild = ctx.guild
+        embed = discord.Embed(title = guild)
+        embed.add_field(name = "Boosts", value = guild.premium_subscription_count, inline = True)
+        embed.add_field(name = "Created at", value = guild.created_at, inline = True)
+        embed.add_field(name = "Number of channels", value = len(guild.channels), inline = True)
+        embed.add_field(name = "ID", value = guild.id, inline = True)
+        embed.add_field(name = "Number of members", value = guild.member_count, inline = True)
+        # idk why owner isn't returning. debug later
+        embed.add_field(name = "Owner", value = guild.owner, inline = True)
+        embed.add_field(name = "Number of roles", value = len(guild.roles), inline = True)
+        embed.set_image(url = guild.icon_url)
+        await ctx.send(embed = embed)
 
     @commands.command(aliases = ["sc"])
     async def sourcecode(self, ctx):
