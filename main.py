@@ -2,8 +2,8 @@ import discord
 from discord.ext import commands
 import os
 from discord.ext.commands.bot import when_mentioned_or
-from discord.ext.commands.errors import CommandOnCooldown
 from dotenv import load_dotenv
+import platform
 
 # bot status
 activity = discord.Activity(name="Zenoku fail at coding", type=discord.ActivityType.watching)
@@ -17,15 +17,12 @@ client.load_extension('jishaku')
 load_dotenv()
 Token = os.getenv("Token")
 
-# loading events
-@client.event
-async def on_connect():
-    print("Zenbot is connected to Discord")
-
+# loading event
 @client.event
 async def on_ready():
     print("Zenbot is ready")
     print(f"Discord.py Version: {discord.__version__}")
+    print(f"Python Version: {platform.python_version()}")
 
 
 # error msges
