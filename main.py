@@ -4,6 +4,7 @@ import os
 from discord.ext.commands.bot import when_mentioned_or
 from dotenv import load_dotenv
 import platform
+import sqlite3
 
 # bot status
 activity = discord.Activity(name="Zenoku fail at coding", type=discord.ActivityType.watching)
@@ -20,6 +21,14 @@ Token = os.getenv("Token")
 # loading event
 @client.event
 async def on_ready():
+    db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
+    cursor = db.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS feedback(
+        message TEXT,
+        user INTEGER
+        )
+    """)
     print("Zenbot is ready")
     print(f"Discord.py Version: {discord.__version__}")
     print(f"Python Version: {platform.python_version()}")
