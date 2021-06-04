@@ -37,7 +37,7 @@ class info(commands.Cog):
         embed.add_field(name = "Boosts", value = guild.premium_subscription_count, inline = True)
         embed.add_field(name = "Number of channels", value = len(guild.channels), inline = True)
         embed.add_field(name = "Number of members", value = guild.member_count, inline = True)
-        # idk why owner isn't returning. debug later
+        # idk why owner is returning none. debug later
         embed.add_field(name = "Number of roles", value = len(guild.roles), inline = True)
         embed.set_image(url = guild.icon_url)
         await ctx.send(embed = embed)
