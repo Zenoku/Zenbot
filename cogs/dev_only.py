@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 
-class restricted(commands.Cog):
+class dev_only(commands.Cog):
     
     def __init__(self, client):
         self.client = client
@@ -26,4 +26,4 @@ class restricted(commands.Cog):
             await ctx.send("You can't use that command")
 
 def setup(client):
-    client.add_cog(restricted(client))
+    client.add_cog(dev_only(client))
