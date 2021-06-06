@@ -16,7 +16,8 @@ class feedback(commands.Cog):
             await ctx.send("Can't send nothing bud")
         else:
             # embed stuff
-            embed = discord.Embed(title = ctx.author)
+            embed = discord.Embed()
+            embed.set_author(name = ctx.author, icon_url= ctx.author.avatar_url)
             embed.add_field(name = "User ID", value = ctx.author.id, inline = True)
             embed.add_field(name = "Feedback", value = arg, inline = False)
             embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
