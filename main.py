@@ -21,18 +21,20 @@ Token = os.getenv("Token")
 # loading event
 @client.event
 async def on_ready():
+    # database stuff
     db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
     cursor = db.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS feedback(
-        message TEXT,
-        user INTEGER
+        user INTEGER,
+        message_id TEXT,
+        message TEXT
         )
     """)
+    # non-database stuff
     print("Zenbot is ready")
     print(f"Discord.py Version: {discord.__version__}")
     print(f"Python Version: {platform.python_version()}")
-
 
 # error msges
 @client.event
@@ -53,7 +55,6 @@ async def on_command_error(ctx, error):
         log_channel = client.get_channel(845671875626795008)
         await log_channel.send(f"Error encountered by: **{ctx.author}**\nMessage id: {ctx.message.jump_url}\n{error}")
         await ctx.send("Some error has occured and has been reported.")
-
 
 """
 work on embeds and stuff. also uncomment remove(help) above when done
