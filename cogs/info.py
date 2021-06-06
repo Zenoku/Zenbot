@@ -18,10 +18,27 @@ class info(commands.Cog):
         embed.set_image(url = member.avatar_url)
         await ctx.send(embed = embed)
 
+    # roles and permissions stuff looks ugly. need to fix
+    @commands.command(aliases = ["mi"])
+    async def memberinfo(self, ctx, member: discord.Member = None):
+        if member == None:
+            member = ctx.author
+
+        embed = discord.Embed(title = member, color = member.color)
+        embed.add_field(name = "Member ID", value = member.id, inline = True)
+        embed.add_field(name = "Creation date", value = member.created_at, inline = True)
+        embed.add_field(name = "Joined at", value = member.joined_at, inline = True)
+        embed.add_field(name = "Color", value = member.color, inline = True)
+        embed.add_field(name = "Number of Roles", value = len(member.roles), inline = True)
+        embed.add_field(name = "Roles", value = member.roles, inline = True)
+        embed.add_field(name = "Nickname", value = member.nick, inline = True)
+        embed.add_field(name = "Permissions", value = member.guild_permissions, inline = True)
+        embed.set_image(url = member.avatar_url)
+        await ctx.send(embed = embed)
     
     # add embeds and figure out role permission stuff
     @commands.command(aliases = ["ri"])
-    async def roleinfo(self, ctx, role:discord.Role = None):
+    async def roleinfo(self, ctx, role: discord.Role = None):
         if role == None:
             await ctx.send("You must input a role name or id")
         else:
