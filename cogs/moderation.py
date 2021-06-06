@@ -28,8 +28,14 @@ class moderation(commands.Cog):
     
     @commands.command()
     async def clear(self, ctx, arg):
-        num = int(arg) + 1
-        await ctx.channel.purge(limit = num)
+        if ctx.author.guild_permissions.manage_messages:
+            if ctx.channel.id == 840975059312181248:
+                await ctx.send("DON'T USE CLEAR IN THIS CHANNEL!!!!")
+            else:
+                num = int(arg) + 1
+                await ctx.channel.purge(limit = num)
+        else:
+            await ctx.send("You don't have the permmissions to do this")
 
 def setup(client):
     client.add_cog(moderation(client))
