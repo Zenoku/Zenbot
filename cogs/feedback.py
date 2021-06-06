@@ -9,59 +9,28 @@ class feedback(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    # stuff for feedback database. not exactly sure if it should be in the feedback class
-
-    # connecting to database
-    def create_connection(path):
-        connection = None
-        try:
-            connection = sqlite3.connect(path)
-            print("Connection to SQLite DB successful")
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-        return connection
-
-    connection = create_connection(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
-
-    def execute_query(connection, query):
-        cursor = connection.cursor()
-        try:
-            cursor.execute(query)
-            connection.commit()
-            print("Query executed successfully")
-        except Error as e:
-            print(f"The error '{e}' occurred")
-
-    create_feedback_table = """
-    CREATE TABLE IF NOT EXISTS feedback (
-        User INTEGER
-        Feedback TEXT
-    );
-    """
-
-    execute_query(connection, create_feedback_table)
-
-
     @commands.command(aliases = ["fb"])
-    @commands.cooldown(1, 300, commands.BucketType.user)
+    # @commands.cooldown(1, 300, commands.BucketType.user)
     async def feedback(self, ctx, *, arg = None):
         if arg == None:
             await ctx.send("Can't send nothing bud")
         else:
+            # embed stuff
             embed = discord.Embed(title = ctx.author)
             embed.add_field(name = "User ID", value = ctx.author.id, inline = True)
             embed.add_field(name = "Feedback", value = arg, inline = False)
             embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
             feedback_channel = self.client.get_channel(840975059312181248)
-            await feedback_channel.send(embed = embed)
+            msg = await feedback_channel.send(embed = embed)
             # database stuff
-            create_feedback = """
-            INSERT INTO
-                feedback (User, Feedback)
-            VALUES
-                (ctx.author.id, 'arg')
-            """
+            db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
+            cur = db.cursor()
+            sql = ("INSERT INTO feedback(user, message_id, message) VALUES(?,?,?)")
+            val = (ctx.author.id, msg.id, arg)
+            cur.execute(sql, val)
+            db.commit()
+            cur.close()
+            db.close()
             await ctx.send("Feedback submitted")
 
     @feedback.error
@@ -72,11 +41,23 @@ class feedback(commands.Cog):
         else:
             await ctx.send("Please report this error with z.fb along with how you got it")
 
-    """
-    work on feedback resolve command later. prob hav like reactions and embeds and stuff
+
+    # work on feedback resolve command later
     @commands.command(aliases = ["fbr"])
-    async def feedbackresolve(self, ctx, *, arg)
-    """
+    async def feedbackresolve(self, ctx, *, arg):
+        # arg is is message id
+        if await self.client.is_owner(ctx.author):
+            db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
+            cursor = db.cursor
+            cursor.execute(f"SELECT user FROM feedback WHERE message_id = {arg}")
+            result = cursor.fetchone()
+            if result == None:
+                ctx.send("That feedback doesn't exist")
+            else:
+                user = result
+                await user.send("Feedback Completed")
+        else:
+            ctx.send("No touchie. For dev only")
 
 def setup(client):
     client.add_cog(feedback(client))
