@@ -19,8 +19,8 @@ class feedback(commands.Cog):
             embed = discord.Embed()
             embed.set_author(name = ctx.author, icon_url= ctx.author.avatar_url)
             embed.add_field(name = "User ID", value = ctx.author.id, inline = True)
-            embed.add_field(name = "Feedback", value = arg, inline = False)
             embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
+            embed.add_field(name = "Feedback", value = arg, inline = False)
             feedback_channel = self.client.get_channel(840975059312181248)
             msg = await feedback_channel.send(embed = embed)
             # database stuff
@@ -49,14 +49,20 @@ class feedback(commands.Cog):
         # arg is is message id
         if await self.client.is_owner(ctx.author):
             db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
-            cursor = db.cursor
+            cursor = db.cursor()
             cursor.execute(f"SELECT user FROM feedback WHERE message_id = {arg}")
             result = cursor.fetchone()
             if result == None:
-                ctx.send("That feedback doesn't exist")
+                await ctx.send("That feedback doesn't exist")
             else:
                 user = result
                 await user.send("Feedback Completed")
+                cursor.execute(f"DELETE FROM TABLE feedback WHERE message_id = {arg}")
+                channel = self.client.get_channel(840975059312181248)
+                msg = await channel.fetch_message(arg)
+                await msg.delete()
+                db.commit
+                db.close
         else:
             ctx.send("No touchie. For dev only")
 
