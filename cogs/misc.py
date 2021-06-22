@@ -14,14 +14,6 @@ class misc(commands.Cog):
         latency_round = round(latency,2)
         await ctx.send(f"Pong! {latency_round}ms")
 
-    @commands.command(aliases = ["hello", "hai"])
-    async def hi(self, ctx):
-        await ctx.send(f"Hello {ctx.author.name}")
-
-    @commands.command(aliases = ["bai"])
-    async def bye(self, ctx):
-        await ctx.send(f"Bye {ctx.author.name}")
-
     @commands.command(aliases = ["e"])
     async def echo(self, ctx, *, arg = None):
         if arg == None:
