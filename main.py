@@ -6,13 +6,16 @@ from dotenv import load_dotenv
 import platform
 import sqlite3
 
+# intent stuff
+intents = discord.Intents.default()
+intents.members = True
+
 # bot status
 activity = discord.Activity(name="Zenoku fail at coding", type=discord.ActivityType.watching)
 
 # regular bot stuff
-client = commands.Bot(command_prefix=when_mentioned_or("z.", "Z."), case_insensitive=True, activity = activity) 
+client = commands.Bot(command_prefix=when_mentioned_or("z.", "Z."), case_insensitive=True, intents = intents, activity = activity) 
 client.load_extension('jishaku')
-# client.remove_command("help")
 
 # .env stuff
 load_dotenv()
@@ -53,7 +56,14 @@ async def on_command_error(ctx, error):
         await ctx.send(f"I am missing {error.missing_perms} to use that command")        
     else:
         log_channel = client.get_channel(845671875626795008)
-        await log_channel.send(f"Error encountered by: **{ctx.author}**\nMessage id: {ctx.message.jump_url}\n{error}")
+        embed = discord.Embed(title = "Error Encountered")
+        embed.set_thumbnail(url = ctx.author.avatar_url)
+        embed.add_field(name = "Encountered by:", value = ctx.author, inline = True)
+        embed.add_field(name = "Encountered in server:", value = ctx.channel, inline = True)
+        embed.add_field(name = "Message link", value = ctx.message.jump_url, inline = True)
+        # add an encountered at time
+        embed.add_field(name = "Error: ", value = error, Inline = True)
+        await log_channel.send(embed = embed)
         await ctx.send("Some error has occured and has been reported.")
 
 """
