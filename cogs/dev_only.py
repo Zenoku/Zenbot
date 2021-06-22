@@ -15,7 +15,7 @@ class dev_only(commands.Cog):
             await server.leave()
             await ctx.send("Left server")
         else:
-            await ctx.send("You can't use that command")
+            await ctx.send("Lmao you thought")
     
     # listing the number of servers + what severs r in
     @commands.command()
@@ -23,7 +23,16 @@ class dev_only(commands.Cog):
         if await self.client.is_owner(ctx.author):
 	        await ctx.send(f"In **{len(list(self.client.guilds))}** servers\nServer info: {list(self.client.guilds)}")
         else:
-            await ctx.send("You can't use that command")
+            await ctx.send("Lmao you thought")
+    
+    # for writing in channels without using echo
+    @commands.command()
+    async def speak(self, ctx, *, arg):
+        if await self.client.is_owner(ctx.author):
+            channel = self.client.get_channel(708689179831435326)
+            await channel.send(arg)
+        else:
+            await ctx.send("Lmao you thought")
 
 def setup(client):
     client.add_cog(dev_only(client))
