@@ -1,2 +1,4 @@
 /.env
 databases/feedback_database.db
+cogs/__pycache__/
+/__pycache__/
