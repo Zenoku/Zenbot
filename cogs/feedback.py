@@ -1,13 +1,12 @@
 import discord
 from discord.ext import commands
 import sqlite3
-from sqlite3 import Error
 
 
 class feedback(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command(aliases = ["fb"])
     # @commands.cooldown(1, 300, commands.BucketType.user)
@@ -16,12 +15,12 @@ class feedback(commands.Cog):
             await ctx.send("Can't send nothing bud")
         else:
             # embed stuff
-            embed = discord.Embed()
-            embed.set_author(name = ctx.author, icon_url= ctx.author.avatar_url)
+            embed = discord.Embed(title = ctx.author)
+            embed.set_thumbnail(url = ctx.author.avatar_url)
             embed.add_field(name = "User ID", value = ctx.author.id, inline = True)
             embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
             embed.add_field(name = "Feedback", value = arg, inline = False)
-            feedback_channel = self.client.get_channel(840975059312181248)
+            feedback_channel = self.bot.get_channel(840975059312181248)
             msg = await feedback_channel.send(embed = embed)
             # database stuff
             db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
@@ -47,7 +46,7 @@ class feedback(commands.Cog):
     @commands.command(aliases = ["fbr"])
     async def feedbackresolve(self, ctx, *, arg):
         # arg is is message id
-        if await self.client.is_owner(ctx.author):
+        if await self.bot.is_owner(ctx.author):
             db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
             cursor = db.cursor()
             cursor.execute(f"SELECT user FROM feedback WHERE message_id = {arg}")
@@ -58,7 +57,7 @@ class feedback(commands.Cog):
                 user = result
                 await user.send("Feedback Completed")
                 cursor.execute(f"DELETE FROM TABLE feedback WHERE message_id = {arg}")
-                channel = self.client.get_channel(840975059312181248)
+                channel = self.bot.get_channel(840975059312181248)
                 msg = await channel.fetch_message(arg)
                 await msg.delete()
                 db.commit
@@ -66,5 +65,5 @@ class feedback(commands.Cog):
         else:
             ctx.send("No touchie. For dev only")
 
-def setup(client):
-    client.add_cog(feedback(client))
+def setup(bot):
+    bot.add_cog(feedback(bot))

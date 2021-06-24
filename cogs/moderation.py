@@ -3,8 +3,8 @@ from discord.ext import commands
 
 class moderation(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     # command is decorator for cogs
     @commands.command(aliases = ["sb"])
@@ -34,5 +34,5 @@ class moderation(commands.Cog):
         else:
             await ctx.send("You don't have the permmissions to do this")
 
-def setup(client):
-    client.add_cog(moderation(client))
+def setup(bot):
+    bot.add_cog(moderation(bot))

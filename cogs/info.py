@@ -3,9 +3,44 @@ from discord.ext import commands
 
 class info(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
-    
+    def __init__(self, bot):
+        self.bot = bot
+
+    # basically just merge userinfo with memberinfo
+    @commands.command()
+    async def info(self, ctx, member = None):
+        if member == None:
+            member = ctx.author
+        # hav elif statement to check if not in ctx.guild or smth
+
+
+        result = ctx.guild.get_member(member.id)
+        print(result)
+        if result == None:
+            # runs userinfo
+            member:discord.User
+            embed = discord.Embed(title = member, color = member.color)
+            embed.add_field(name = "Member ID", value = member.id, inline = True)
+            embed.add_field(name = "Creation date", value = member.created_at, inline = True)
+            embed.add_field(name = "Color", value = member.color, inline = True)
+            embed.set_image(url = member.avatar_url)
+            return await ctx.send(embed = embed)
+        else:
+            # runs memberinfo
+            member:discord.Member
+            embed = discord.Embed(title = member, color = member.color)
+            embed.add_field(name = "Member ID", value = member.id, inline = True)
+            embed.add_field(name = "Creation date", value = member.created_at, inline = True)
+            embed.add_field(name = "Joined at", value = member.joined_at, inline = True)
+            embed.add_field(name = "Color", value = member.color, inline = True)
+            embed.add_field(name = "Number of Roles", value = len(member.roles), inline = True)
+            roles = ", ".join(role.name for role in member.roles)
+            embed.add_field(name = "Roles", value = roles, inline = True)
+            embed.add_field(name = "Nickname", value = member.nick, inline = True)
+            embed.add_field(name = "Permissions", value = member.guild_permissions, inline = True)
+            embed.set_image(url = member.avatar_url)
+            return await ctx.send(embed = embed)
+
     @commands.command(aliases = ["ui"])
     async def userinfo(self, ctx, member:discord.User = None):
         if member == None:
@@ -30,7 +65,8 @@ class info(commands.Cog):
         embed.add_field(name = "Joined at", value = member.joined_at, inline = True)
         embed.add_field(name = "Color", value = member.color, inline = True)
         embed.add_field(name = "Number of Roles", value = len(member.roles), inline = True)
-        embed.add_field(name = "Roles", value = member.roles, inline = True)
+        roles = ", ".join(role.name for role in member.roles)
+        embed.add_field(name = "Roles", value = roles, inline = True)
         embed.add_field(name = "Nickname", value = member.nick, inline = True)
         embed.add_field(name = "Permissions", value = member.guild_permissions, inline = True)
         embed.set_image(url = member.avatar_url)
@@ -63,5 +99,5 @@ class info(commands.Cog):
     async def sourcecode(self, ctx):
         await ctx.send("https://github.com/Zenoku/Zenbot")
 
-def setup(client):
-    client.add_cog(info(client))
+def setup(bot):
+    bot.add_cog(info(bot))

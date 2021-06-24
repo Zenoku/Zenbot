@@ -5,12 +5,12 @@ from discord.ext.commands.cooldowns import BucketType
 
 class misc(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command()
     async def ping(self, ctx):
-        latency = self.client.latency * 1000
+        latency = self.bot.latency * 1000
         latency_round = round(latency,2)
         await ctx.send(f"Pong! {latency_round}ms")
 
@@ -30,5 +30,5 @@ class misc(commands.Cog):
     async def bonk(self, ctx, member:discord.User):
         await ctx.send(f"**{ctx.author}** bonks **{member}** https://tenor.com/view/kendo-shinai-bonk-doge-horny-gif-20995284")
 
-def setup(client):
-    client.add_cog(misc(client))
+def setup(bot):
+    bot.add_cog(misc(bot))
