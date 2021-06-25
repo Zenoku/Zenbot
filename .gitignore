@@ -1,7 +1,7 @@
 /.env
 databases/feedback_database.db
+cogs/__pycache__/dev_only.cpython-39.pyc
 cogs/__pycache__/feedback.cpython-39.pyc
 cogs/__pycache__/info.cpython-39.pyc
 cogs/__pycache__/misc.cpython-39.pyc
-cogs/__pycache__/dev_only.cpython-39.pyc
 cogs/__pycache__/moderation.cpython-39.pyc
