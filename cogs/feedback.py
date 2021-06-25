@@ -8,7 +8,7 @@ class feedback(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(aliases = ["fb"])
+    @commands.command(aliases = ["fb"], help = "Give Feedback")
     # @commands.cooldown(1, 300, commands.BucketType.user)
     async def feedback(self, ctx, *, arg = None):
         if arg == None:
@@ -43,7 +43,7 @@ class feedback(commands.Cog):
 
 
     # work on feedback resolve command later
-    @commands.command(aliases = ["fbr"])
+    @commands.command(aliases = ["fbr"], help = "Resolving feedback, need to have message id")
     async def feedbackresolve(self, ctx, *, arg):
         # arg is is message id
         if await self.bot.is_owner(ctx.author):

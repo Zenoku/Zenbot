@@ -7,12 +7,12 @@ class moderation(commands.Cog):
         self.bot = bot
 
     # command is decorator for cogs
-    @commands.command(aliases = ["sb"])
+    @commands.command(aliases = ["sb"], help = "For banning yourself")
     async def selfban(self, ctx):
         await ctx.guild.ban(ctx.author, reason = f"{ctx.author} banned themself", delete_message_days = 0)
         await ctx.send(f"{ctx.author} has banned themself")
 
-    @commands.command()
+    @commands.command(aliases = ["ub"], help = "Unban someone")
     async def unban(self, ctx, user: discord.User):
         if ctx.author.guild_permissions.ban_members:
             await ctx.guild.unban(user)
@@ -21,12 +21,12 @@ class moderation(commands.Cog):
         else:
             await ctx.send("You don't have the permissions to do this")
 
-    @commands.command(aliases = ["sk"])
+    @commands.command(aliases = ["sk"], help = "For kicking yourself")
     async def selfkick(self, ctx):
         await ctx.guild.kick(ctx.author)
         await ctx.send(f"{ctx.author} has kicked themself")
     
-    @commands.command()
+    @commands.command(help = "Deletes messages in a channel")
     async def clear(self, ctx, arg):
         if ctx.author.guild_permissions.manage_messages:
             num = int(arg) + 1

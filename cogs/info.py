@@ -7,7 +7,7 @@ class info(commands.Cog):
         self.bot = bot
 
     # basically just merge userinfo with memberinfo
-    @commands.command()
+    @commands.command(help = "Get information about a user")
     async def info(self, ctx, member = None):
         if member == None:
             member = ctx.author
@@ -73,14 +73,14 @@ class info(commands.Cog):
         await ctx.send(embed = embed)
     
     # add embeds and figure out role permission stuff
-    @commands.command(aliases = ["ri"])
+    @commands.command(aliases = ["ri"], help = "Get information about a role")
     async def roleinfo(self, ctx, role: discord.Role = None):
         if role == None:
             await ctx.send("You must input a role name or id")
         else:
             await ctx.send(f"**{role}**\nId: {role.id}\nMentionable: {role.mentionable}\nPermissions: {role.permissions}\nColor: {role.color}\nCreated at {role.created_at}")
 
-    @commands.command(aliases = ["si", "gi"])
+    @commands.command(aliases = ["si", "gi"], help = "Get information on a server")
     async def serverinfo(self, ctx):
         guild = ctx.guild
         embed = discord.Embed(title = guild)
@@ -95,7 +95,7 @@ class info(commands.Cog):
         embed.set_image(url = guild.icon_url)
         await ctx.send(embed = embed)
 
-    @commands.command(aliases = ["sc"])
+    @commands.command(aliases = ["sc"], help = "Sourcecode for ZenBot")
     async def sourcecode(self, ctx):
         await ctx.send("https://github.com/Zenoku/Zenbot")
 

@@ -35,7 +35,6 @@ async def on_ready():
         )
     """)
     # non-database stuff
-    print("Zenbot is ready")
     print(f"Discord.py Version: {discord.__version__}")
     print(f"Python Version: {platform.python_version()}")
     print(f"SQLite Version: {sqlite3.version}")
@@ -67,13 +66,14 @@ async def on_command_error(ctx, error):
         await log_channel.send(embed = embed)
         await ctx.send("Some error has occured and has been reported")
 
-"""
-work on embeds and stuff.
-
-@bot.command()
-async def help(ctx):
-    await ctx.send("Work In Progress, commands are hi, bye, and feedback for now")
-"""
+# needs major improvements but at least it works
+class MyHelpCommand(commands.MinimalHelpCommand):
+    async def send_pages(self):
+        destination = self.get_destination()
+        for page in self.paginator.pages:
+            embed = discord.Embed(description=page)
+            await destination.send(embed = embed)
+bot.help_command = MyHelpCommand()
 
 # loading cogs
 for filename in os.listdir("./cogs"):
