@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import sqlite3
-
+import datetime
 
 class feedback(commands.Cog):
 
@@ -19,6 +19,7 @@ class feedback(commands.Cog):
             embed.set_thumbnail(url = ctx.author.avatar_url)
             embed.add_field(name = "User ID", value = ctx.author.id, inline = True)
             embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
+            embed.add_field(name = "Time Submitted", value = datetime.datetime.now(), inline = False)
             embed.add_field(name = "Feedback", value = arg, inline = False)
             feedback_channel = self.bot.get_channel(840975059312181248)
             msg = await feedback_channel.send(embed = embed)
@@ -42,28 +43,29 @@ class feedback(commands.Cog):
             await ctx.send("Please report this error with z.fb along with how you got it")
 
 
-    # work on feedback resolve command later
+    # message ids 858125769950494730 and 858126028315689001 are not resolving for some reason
     @commands.command(aliases = ["fbr"], help = "Resolving feedback, need to have message id")
     async def feedbackresolve(self, ctx, *, arg):
-        # arg is is message id
+        # arg is message id
         if await self.bot.is_owner(ctx.author):
             db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
-            cursor = db.cursor()
-            cursor.execute(f"SELECT user FROM feedback WHERE message_id = {arg}")
-            result = cursor.fetchone()
+            cur = db.cursor()
+            cur.execute(f"SELECT user FROM feedback WHERE message_id = {arg}")
+            # result is the user id
+            result = cur.fetchone()[0]
             if result == None:
                 await ctx.send("That feedback doesn't exist")
             else:
-                user = result
+                user = self.bot.get_user(result)
                 await user.send("Feedback Completed")
-                cursor.execute(f"DELETE FROM TABLE feedback WHERE message_id = {arg}")
+                await ctx.send("Feedback Completed")
+                # in the future, should prob add embed and specify which feedback im resolving
+                cur.execute(f"DELETE FROM feedback WHERE message_id = {arg}")
                 channel = self.bot.get_channel(840975059312181248)
                 msg = await channel.fetch_message(arg)
                 await msg.delete()
-                db.commit
-                db.close
-        else:
-            ctx.send("No touchie. For dev only")
+                db.commit()
+                db.close()
 
 def setup(bot):
     bot.add_cog(feedback(bot))
