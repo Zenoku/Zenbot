@@ -39,6 +39,13 @@ async def on_ready():
     print(f"Python Version: {platform.python_version()}")
     print(f"SQLite Version: {sqlite3.version}")
 
+# runs edited messages
+@bot.event
+async def on_message_edit(before, after):
+    if before.content != after.content:
+        await bot.on_message(after)
+
+
 # error msges
 @bot.event
 async def on_command_error(ctx, error):
@@ -66,14 +73,26 @@ async def on_command_error(ctx, error):
         await log_channel.send(embed = embed)
         await ctx.send("Some error has occured and has been reported")
 
+"""
 # needs major improvements but at least it works
-class MyHelpCommand(commands.MinimalHelpCommand):
-    async def send_pages(self):
-        destination = self.get_destination()
-        for page in self.paginator.pages:
-            embed = discord.Embed(description=page)
-            await destination.send(embed = embed)
-bot.help_command = MyHelpCommand()
+class MyHelp(commands.HelpCommand):
+    def get_command_signature(self, command):
+        return '%s%s %s' % (self.clean_prefix, command.qualified_name, command.signature)
+
+    async def send_bot_help(self, mapping):
+        embed = discord.Embed(title="Help")
+        for cog, commands in mapping.items():
+           filtered = await self.filter_commands(commands, sort=True)
+           command_signatures = [self.get_command_signature(c) for c in filtered]
+           if command_signatures:
+                cog_name = getattr(cog, "qualified_name", "No Category")
+                embed.add_field(name=cog_name, value="\n".join(command_signatures), inline=False)
+
+        channel = self.get_destination()
+        await channel.send(embed=embed)
+
+bot.help_command = MyHelp()
+"""
 
 # loading cogs
 for filename in os.listdir("./cogs"):
