@@ -2,3 +2,4 @@
 databases/feedback_database.db
 databases/econ_database.db
 cogs/__pycache__/econ.cpython-39.pyc
+cogs/__pycache__/feedback.cpython-39.pyc
