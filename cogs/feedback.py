@@ -9,7 +9,7 @@ class feedback(commands.Cog):
         self.bot = bot
 
     @commands.command(aliases = ["fb"], help = "Give Feedback")
-    # @commands.cooldown(1, 300, commands.BucketType.user)
+    @commands.cooldown(1, 300, commands.BucketType.user)
     async def feedback(self, ctx, *, arg = None):
         if arg == None:
             await ctx.send("Can't send nothing bud")
