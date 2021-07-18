@@ -6,6 +6,10 @@ class misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(help = "Link to the support server")
+    async def support(self, ctx):
+        await ctx.send("https://discord.gg/s8xuUQ43uf")
+
     @commands.command(help = "Check latency")
     async def ping(self, ctx):
         latency = self.bot.latency * 1000
