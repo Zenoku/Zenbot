@@ -50,9 +50,12 @@ async def on_ready():
     cursor.close()
     db.close()
     # non-database stuff
+    print("-------")
+    print("Bot online")
     print(f"Discord.py Version: {discord.__version__}")
     print(f"Python Version: {platform.python_version()}")
     print(f"SQLite Version: {sqlite3.version}")
+    print("-------")
 
 # runs edited messages
 @bot.event
@@ -81,12 +84,13 @@ async def on_command_error(ctx, error):
         embed = discord.Embed(title = "Error Encountered")
         embed.set_thumbnail(url = ctx.author.avatar_url)
         embed.add_field(name = "Encountered by:", value = ctx.author, inline = True)
-        embed.add_field(name = "Encountered in server:", value = ctx.channel, inline = True)
+        embed.add_field(name = "Encountered in server:", value = ctx.guild, inline = True)
         embed.add_field(name = "Message link:", value = ctx.message.jump_url, inline = True)
         # add an encountered at time
-        embed.add_field(name = "Error:", value = error, Inline = True)
+        embed.add_field(name = "Error:", value = error, inline = True)
         await log_channel.send(embed = embed)
         await ctx.send("Some error has occured and has been reported")
+
 
 """
 # needs major improvements but at least it works
