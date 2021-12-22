@@ -2,11 +2,27 @@ import discord
 from discord.ext import commands
 import sqlite3
 import datetime
+import aiosqlite
 
 class feedback(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_ready():
+        db = await aiosqlite.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
+        cursor = db.cursor()
+        await cursor.execute("""
+            CREATE TABLE IF NOT EXISTS feedback(
+            user INTEGER,
+            message_id TEXT,
+            message TEXT
+            )
+        """)
+        await db.commit()
+        await cursor.close()
+        await db.close()
 
     @commands.command(aliases = ["fb"], help = "Give Feedback")
     @commands.cooldown(1, 300, commands.BucketType.user)
@@ -33,15 +49,6 @@ class feedback(commands.Cog):
             cur.close()
             db.close()
             await ctx.send("Feedback submitted")
-
-    @feedback.error
-    async def feedback_error(self, ctx, error):
-        if isinstance(error, commands.CommandOnCooldown):
-            timeout = round(error.retry_after, 2)
-            await ctx.send(f"You're on cooldown. You can use this command in **{timeout}** seconds")
-        else:
-            await ctx.send("Please report this error with z.fb along with how you got it")
-
 
     # message ids 858125769950494730 and 858126028315689001 are not resolving for some reason
     @commands.command(aliases = ["fbr"], help = "Resolving feedback, need to have message id")

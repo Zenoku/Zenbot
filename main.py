@@ -24,32 +24,6 @@ Token = os.getenv("Token")
 # loading event
 @bot.event
 async def on_ready():
-    # feedback database
-    db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\feedback_database.db")
-    cursor = db.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS feedback(
-        user INTEGER,
-        message_id TEXT,
-        message TEXT
-        )
-    """)
-    db.commit()
-    cursor.close()
-    db.close()
-    # econ database
-    db = sqlite3.connect(r"C:\Users\Admin\Desktop\Python Programs\Projects\Zenbot\databases\econ_database.db")
-    cursor = db.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS econ(
-        user INTEGER,
-        balance INTEGER
-        )
-    """)
-    db.commit()
-    cursor.close()
-    db.close()
-    # non-database stuff
     print("-------")
     print("Bot online")
     print(f"Discord.py Version: {discord.__version__}")
@@ -63,7 +37,13 @@ async def on_message_edit(before, after):
     if before.content != after.content:
         await bot.on_message(after)
 
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+            timeout = round(error.retry_after, 2)
+            await ctx.send(f"You're on cooldown. You can use this command in **{timeout}** seconds")
 
+"""
 # error msges
 @bot.event
 async def on_command_error(ctx, error):
@@ -90,7 +70,7 @@ async def on_command_error(ctx, error):
         embed.add_field(name = "Error:", value = error, inline = True)
         await log_channel.send(embed = embed)
         await ctx.send("Some error has occured and has been reported")
-
+"""
 
 """
 # needs major improvements but at least it works

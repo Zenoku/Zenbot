@@ -6,9 +6,9 @@ class misc(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(help = "Link to the support server")
+    """@commands.command(help = "Link to the support server")
     async def support(self, ctx):
-        await ctx.send("https://discord.gg/s8xuUQ43uf")
+        await ctx.send("https://discord.gg/s8xuUQ43uf")"""
 
     @commands.command(help = "Check latency")
     async def ping(self, ctx):
@@ -28,9 +28,15 @@ class misc(commands.Cog):
         await member.send(f"**{ctx.author}** says: {arg}")
         await ctx.send("DM sent")
     
+    # fix later. won't send bc url needs to end in .gif
     @commands.command(help = "Bonk someone")
-    async def bonk(self, ctx, member:discord.User):
-        await ctx.send(f"**{ctx.author}** bonks **{member}** https://tenor.com/view/kendo-shinai-bonk-doge-horny-gif-20995284")
+    async def bonk(self, ctx, member:discord.User = None):
+        if member == None:
+            member = ctx.author
+        
+        embed = discord.Embed(title = f"{ctx.author} bonks {member}")
+        embed.set_image(url = "https://tenor.com/view/kendo-shinai-bonk-doge-horny-gif-20995284")
+        await ctx.send(embed = embed)
 
 def setup(bot):
     bot.add_cog(misc(bot))
