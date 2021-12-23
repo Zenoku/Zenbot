@@ -1,0 +1,5 @@
+- make on_disconnect() event be smth like sending a message saying it's going offline
+- migrate to pycord
+- switch everything to postressql
+	- https://github.com/MagicStack/asyncpg
+- fix coinflip
