@@ -43,6 +43,8 @@ async def on_command_error(ctx, error):
             timeout = round(error.retry_after, 2)
             await ctx.send(f"You're on cooldown. You can use this command in **{timeout}** seconds")
 
+# git test
+
 """
 # error msges
 @bot.event
