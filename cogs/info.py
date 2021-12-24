@@ -23,7 +23,7 @@ class info(commands.Cog):
             embed.add_field(name = "Member ID", value = member.id, inline = True)
             embed.add_field(name = "Creation date", value = member.created_at, inline = True)
             embed.add_field(name = "Color", value = member.color, inline = True)
-            embed.set_image(url = member.avatar_url)
+            embed.set_image(url = member.avatar.url)
             return await ctx.send(embed = embed)
         else:
             # runs memberinfo
@@ -38,7 +38,7 @@ class info(commands.Cog):
             embed.add_field(name = "Roles", value = roles, inline = True)
             embed.add_field(name = "Nickname", value = member.nick, inline = True)
             embed.add_field(name = "Permissions", value = member.guild_permissions, inline = True)
-            embed.set_image(url = member.avatar_url)
+            embed.set_image(url = member.avatar.url)
             return await ctx.send(embed = embed)
 
     @commands.command(aliases = ["ui"])
@@ -50,7 +50,7 @@ class info(commands.Cog):
         embed.add_field(name = "Member ID", value = member.id, inline = True)
         embed.add_field(name = "Creation date", value = member.created_at, inline = True)
         embed.add_field(name = "Color", value = member.color, inline = True)
-        embed.set_image(url = member.avatar_url)
+        embed.set_image(url = member.avatar.url)
         await ctx.send(embed = embed)
 
     # roles and permissions stuff looks ugly. need to fix
@@ -69,7 +69,7 @@ class info(commands.Cog):
         embed.add_field(name = "Roles", value = roles, inline = True)
         embed.add_field(name = "Nickname", value = member.nick, inline = True)
         embed.add_field(name = "Permissions", value = member.guild_permissions, inline = True)
-        embed.set_image(url = member.avatar_url)
+        embed.set_image(url = member.avatar.url)
         await ctx.send(embed = embed)
     
     # add embeds and figure out role permission stuff
@@ -92,7 +92,7 @@ class info(commands.Cog):
         embed.add_field(name = "Number of members", value = guild.member_count, inline = True)
         # idk why owner is returning none. debug later
         embed.add_field(name = "Number of roles", value = len(guild.roles), inline = True)
-        embed.set_image(url = guild.icon_url)
+        embed.set_image(url = guild.icon.url)
         await ctx.send(embed = embed)
 
     @commands.command(aliases = ["sc"], help = "Sourcecode for ZenBot")

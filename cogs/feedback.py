@@ -32,9 +32,9 @@ class feedback(commands.Cog):
         else:
             # embed stuff
             embed = discord.Embed(title = ctx.author)
-            embed.set_thumbnail(url = ctx.author.avatar_url)
+            embed.set_thumbnail(url = ctx.author.avatar.url)
             embed.add_field(name = "User ID", value = ctx.author.id, inline = True)
-            embed.add_field(name = "Message Link", value = ctx.message.jump_url, inline = False)
+            embed.add_field(name = "Message Link", value = ctx.message.jump.url, inline = False)
             embed.add_field(name = "Time Submitted", value = datetime.datetime.now(), inline = False)
             embed.add_field(name = "Feedback", value = arg, inline = False)
             feedback_channel = self.bot.get_channel(840975059312181248)
