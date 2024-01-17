@@ -128,11 +128,14 @@ class econ(commands.Cog):
             await ctx.send("You don't have that much money")
         elif int(num) <= result:
             side = random.choice(["heads", "tails"])
+            #side = round(random.random())
             if side[0] == arg:
+            #if side == arg but make arg = 0 if heads, 1 if tails:
                 cur.execute(f"UPDATE econ SET balance = balance + {num} WHERE user = {ctx.author.id}")
                 db.commit()
                 cur.close()
                 db.close()
+                #{side} can be replaced with "{if side "Tails" else "Heads"}"
                 await ctx.send(f"The coin landed on {side}. You won {num} coins")
             else:
                 cur.execute(f"UPDATE econ SET balance = balance - {num} WHERE user = {ctx.author.id}")
